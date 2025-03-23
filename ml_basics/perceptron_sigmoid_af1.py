@@ -96,7 +96,7 @@ def main():
 
     # Labels: 1 (Disease Present), 0 (Disease Absent)
     labels = np.array([1, 1, 0, 1, 1, 0, 1, 0, 1, 0])
-    epochs = 100000  # Increased epochs to get better results
+    epochs = 10000000  # Increased epochs to get better results
     learning_rate = 0.00001
     losses = []
     for epoch in range(epochs):
