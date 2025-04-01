@@ -31,7 +31,7 @@ def count_params(model):
 
 # === Main function ===
 def main():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("gpu" if torch.cuda.is_available() else "cpu")
     print("Using device:", device)
 
     df = pd.read_csv("synthetic_patient_wait_time.csv")
