@@ -1,0 +1,9 @@
+numpy
+pandas
+scikit-learn
+openpyxl
+matplotlib
+seaborn
+fastapi
+joblib
+pydantic
