@@ -60,11 +60,13 @@ def main():
     for epoch in range(epochs):
         z1, a1, z2, y_pred = feedforward(X, w1, b1, w2, b2)
         # Convert y_pred probabilities to class labels using 0.5 threshold
-        ##y_pred_class = (y_pred > 0.5).astype(int)
-        for thresh in [0.3, 0.5, 0.7]:
-            preds = (y_pred > thresh).astype(int)
-            print(f"\nThreshold: {thresh}")
-            print(confusion_matrix(y_true, preds))
+        y_pred_probs = (y_pred > 0.5).astype(int)
+
+        print("balance:",np.bincount(y_true))
+        # for thresh in [0.3, 0.5, 0.7]:
+        #     preds = (y_pred > thresh).astype(int)
+        #     print(f"\nThreshold: {thresh}")
+        #     print(confusion_matrix(y_true, preds))
         loss = binary_cross_entropy(y_true, y_pred)
         dw1, db1, dw2, db2 = gradients(X, y_true, z1, z2, a1, y_pred, w1, w2)
 
@@ -88,6 +90,24 @@ def main():
     # print("Confusion Matrix:")
     # print(confusion_matrix(y_true, y_pred_class))
     print("\nExecution Time: {:.2f} seconds".format(time.time() - start_time))
+
+    from sklearn.metrics import roc_curve, auc
+    import matplotlib.pyplot as plt
+
+    # y_true: actual labels, y_scores: predicted probabilities
+    fpr, tpr, thresholds = roc_curve(y_true, y_pred_probs)
+    roc_auc = auc(fpr, tpr)
+
+    # Plot ROC
+    plt.plot(fpr, tpr, label=f"ROC curve (AUC = {roc_auc:.2f})")
+    plt.plot([0, 1], [0, 1], linestyle='--', color='gray')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver Operating Characteristic')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
 
 if __name__ == "__main__":
     main()
